@@ -25,7 +25,7 @@ function GM:PlayerInitialSpawn( ply )  // When spawning after joining the sever
 		sb_team2( ply ) //If he is then set his team to team 2.
 	else // If he isn't admin then,
 	joining( ply ) //Call the function joining (found near the bottom of this file)
-	RunConsoleCommand( "sb_start" )	 //Run the console command defined in cl_init.lua. 
+	-- ply:ConCommand( "sb_start" ) If you want to take of anti minge then take out the -- 
 	end //Close the if
 end //close the function
  
@@ -53,7 +53,7 @@ function sb_team1( ply )
 	ply:UnSpectate() //Since he was set to spectate until he presses the 'hell yeah' button, we now unspecatate him
 	ply:SetTeam( 1 ) //We set his team to one, a.k.a 'guest'
 	ply:Spawn() //Spawn the player
-	ply:PrintMessage( HUD_PRINTTALK, "[SpaceBuild]Welcome to the server, " .. ply:Nick() ) //Gives the message [SimpleBuild]Welcome to the server, (playername here)"  in the talk area.
+	ply:PrintMessage( HUD_PRINTTALK, "[SpaceBuild] Welcome to the server, " .. ply:Nick() ) //Gives the message [SimpleBuild]Welcome to the server, (playername here)"  in the talk area.
  
 end //End the function.
  
@@ -74,3 +74,10 @@ function joining( ply ) // The function that's called when the player is not adm
 	ply:SetTeam( 3 ) //Set his team to Joining
  
 end //End the function
+
+function chatCommand( ply, text, public )
+    if (string.sub(text, 1, 5) == "/play") then --if the first 4 letters are /play, Do
+         ply:ConCommand( "sb_start" )
+         return(false) --Hides the "/play" from chat
+    end
+end
